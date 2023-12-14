@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "start": "node ./express/bin/www",
-    "start-express": "cd express && npm start"
+    "start-express": "cd express && npm start",
+    "build-babylon": "webpack",
+    "start-babylon": "webpack-dev-server --port 8080"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -13,5 +15,15 @@
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "morgan": "~1.9.1"
+  },
+  "devDependencies": {
+    "@babylonjs/core": "^6.34.0",
+    "@babylonjs/inspector": "^6.34.0",
+    "html-webpack-plugin": "^5.5.4",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.3.3",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
   }
 }
