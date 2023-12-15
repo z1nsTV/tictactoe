@@ -6,7 +6,7 @@
     "start": "node ./express/bin/www",
     "start-express": "cd express && npm start",
     "build-babylon": "webpack",
-    "start-babylon": "webpack-dev-server --port 8080"
+    "start-babylon": "cd app && webpack-dev-server --port 8080"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
