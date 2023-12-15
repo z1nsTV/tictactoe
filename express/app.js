@@ -4,11 +4,12 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+require("dotenv").config({ path: "../.env" });
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var app = express();
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.EXPRESS_PORT;
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));

@@ -3,14 +3,15 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./express/bin/www",
-    "start-express": "cd express && npm start",
+    "start-express": "cd express && node app.js",
+    "start-dev-express": "cd express && nodemon app.js",
     "build-app": "webpack",
     "start-app": "cd app && webpack-dev-server --port 8080"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
+    "dotenv": "^16.3.1",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
@@ -21,6 +22,7 @@
     "@babylonjs/core": "^6.34.0",
     "@babylonjs/inspector": "^6.34.0",
     "html-webpack-plugin": "^5.5.4",
+    "nodemon": "^3.0.2",
     "ts-loader": "^9.5.1",
     "typescript": "^5.3.3",
     "webpack": "^5.89.0",
