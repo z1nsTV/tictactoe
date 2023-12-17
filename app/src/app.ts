@@ -9,18 +9,20 @@ import {
   HemisphericLight,
   Mesh,
   MeshBuilder,
+  TargetCamera,
+  Camera,
+  FlyCamera,
 } from "@babylonjs/core";
 
 class App {
   constructor() {
     // create the canvas html element and attach it to the webpage
     var canvas = document.querySelector("#renderCanvas") as HTMLCanvasElement;
-    document.body.appendChild(canvas);
 
-    window.addEventListener("resize", function () {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    });
+    // window.addEventListener("resize", function () {
+    //   canvas.width = window.innerWidth;
+    //   canvas.height = window.innerHeight;
+    // });
 
     // initialize babylon scene and engine
     var engine = new Engine(canvas, true);
@@ -32,17 +34,19 @@ class App {
       "Camera",
       Math.PI / 3,
       Math.PI / 3,
-      3,
+      4,
       box.position,
-      scene
+      scene,
+      true
     );
-    camera.attachControl(canvas, true);
+
+    // camera.attachControl(canvas, true);
+
     var light1: HemisphericLight = new HemisphericLight(
       "light1",
       new Vector3(1, 1, 0),
       scene
     );
-    // var sphere: Mesh = MeshBuilder.CreateSphere("sphere", { diameter: 1 }, scene);
 
     // hide/show the Inspector
     window.addEventListener("keydown", (ev) => {
