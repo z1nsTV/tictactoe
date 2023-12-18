@@ -32,18 +32,33 @@ class App {
 
     scene.clearColor = new Color4(0, 0, 0, 0);
 
-    var box: Mesh = MeshBuilder.CreateBox("box", { size: 1 }, scene);
-    var material: StandardMaterial = new StandardMaterial("normal", scene);
-    material.diffuseTexture = new Texture("textures/amiga.jpg", scene);
+    var positions = {
+      1: new Vector3(-1, 1, -1),
+      2: new Vector3(0, 1, -1),
+      3: new Vector3(1, 1, -1),
+      4: new Vector3(-1, 0, -1),
+      5: new Vector3(0, 0, -1),
+      6: new Vector3(1, 0, -1),
+      7: new Vector3(-1, -1, -1),
+      8: new Vector3(0, -1, -1),
+      9: new Vector3(1, -1, -1),
+    };
 
-    box.material = material;
+    for (var i in positions) {
+      var box: Mesh = MeshBuilder.CreateBox("box", { size: 0.6 }, scene);
+      box.position = positions[i];
+      var material: StandardMaterial = new StandardMaterial("normal", scene);
+      material.diffuseTexture = new Texture("textures/amiga.jpg", scene);
+
+      box.material = material;
+    }
 
     var camera: ArcRotateCamera = new ArcRotateCamera(
       "Camera",
       Math.PI / 3,
-      Math.PI / 3,
-      4,
-      box.position,
+      Math.PI / 2.5,
+      4.5,
+      new Vector3(0, 0, -1),
       scene,
       true
     );
