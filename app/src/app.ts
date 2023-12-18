@@ -15,9 +15,14 @@ import {
   Texture,
   Color3,
   DynamicTexture,
+  ActionManager,
+  ExecuteCodeAction,
 } from "@babylonjs/core";
+import BoxBaseMaterial from "./materials/boxBaseMaterial";
 
 class App {
+  private boxes: Mesh[] = [];
+
   constructor() {
     // create the canvas html element and attach it to the webpage
     var canvas = document.querySelector("#renderCanvas") as HTMLCanvasElement;
@@ -50,32 +55,16 @@ class App {
       var box: Mesh = MeshBuilder.CreateBox("box", { size: 0.6 }, scene);
       box.position = positions[i];
       var material: StandardMaterial = new StandardMaterial("normal", scene);
-      material.diffuseColor = new Color3(0.5, 0.5, 0.5);
 
-      // Create a dynamic texture
-      var dynamicTexture = new DynamicTexture(
-        "dynamic texture",
-        512,
+      var boxMaterial: BoxBaseMaterial = new BoxBaseMaterial(
+        "box",
         scene,
-        true
+        "😶‍🌫️",
+        "red"
       );
-      // Create a font style
-      var font = "bold 350px monospace";
-      // Set the text color
-      dynamicTexture.drawText(
-        "X",
-        null,
-        null,
-        font,
-        "red",
-        "white",
-        false,
-        true
-      );
-      // Apply the texture to the material
-      material.diffuseTexture = dynamicTexture;
 
-      box.material = material;
+      box.material = boxMaterial;
+      this.boxes.push(box);
     }
 
     var camera: ArcRotateCamera = new ArcRotateCamera(
@@ -110,8 +99,23 @@ class App {
 
     // run the main render loop
     engine.runRenderLoop(() => {
+      // Game logic goes here
+      actionManagerForClickingBoxes(scene, this.boxes);
       scene.render();
     });
   }
 }
+
 new App();
+
+const actionManagerForClickingBoxes = (scene: Scene, boxes: Mesh[]) => {
+  for (let box of boxes) {
+    box.actionManager = new ActionManager(scene);
+
+    box.actionManager.registerAction(
+      new ExecuteCodeAction(ActionManager.OnPickTrigger, () => {
+        box.material = new BoxBaseMaterial("box", scene, "X", "red");
+      })
+    );
+  }
+};
