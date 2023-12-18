@@ -10,16 +10,17 @@ import {
   Mesh,
   MeshBuilder,
   Color4,
+  Material,
+  StandardMaterial,
+  Texture,
 } from "@babylonjs/core";
 
 class App {
   constructor() {
     // create the canvas html element and attach it to the webpage
     var canvas = document.querySelector("#renderCanvas") as HTMLCanvasElement;
-    // canvas.style.width = "100%";
-    // canvas.style.height = "100%";
-    // canvas.style.position = "absolute";
-    // canvas.style.backgroundColor = "black";
+
+    // resize the babylon engine when the window is resized
     window.addEventListener("resize", function () {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -32,6 +33,10 @@ class App {
     scene.clearColor = new Color4(0, 0, 0, 0);
 
     var box: Mesh = MeshBuilder.CreateBox("box", { size: 1 }, scene);
+    var material: StandardMaterial = new StandardMaterial("normal", scene);
+    material.diffuseTexture = new Texture("textures/amiga.jpg", scene);
+
+    box.material = material;
 
     var camera: ArcRotateCamera = new ArcRotateCamera(
       "Camera",
