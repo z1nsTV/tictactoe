@@ -13,6 +13,8 @@ import {
   Material,
   StandardMaterial,
   Texture,
+  Color3,
+  DynamicTexture,
 } from "@babylonjs/core";
 
 class App {
@@ -48,22 +50,45 @@ class App {
       var box: Mesh = MeshBuilder.CreateBox("box", { size: 0.6 }, scene);
       box.position = positions[i];
       var material: StandardMaterial = new StandardMaterial("normal", scene);
-      material.diffuseTexture = new Texture("textures/amiga.jpg", scene);
+      material.diffuseColor = new Color3(0.5, 0.5, 0.5);
+
+      // Create a dynamic texture
+      var dynamicTexture = new DynamicTexture(
+        "dynamic texture",
+        512,
+        scene,
+        true
+      );
+      // Create a font style
+      var font = "bold 350px monospace";
+      // Set the text color
+      dynamicTexture.drawText(
+        "X",
+        null,
+        null,
+        font,
+        "red",
+        "white",
+        false,
+        true
+      );
+      // Apply the texture to the material
+      material.diffuseTexture = dynamicTexture;
 
       box.material = material;
     }
 
     var camera: ArcRotateCamera = new ArcRotateCamera(
       "Camera",
-      Math.PI / 3,
       Math.PI / 2.5,
+      Math.PI / 2,
       4.5,
       new Vector3(0, 0, -1),
       scene,
       true
     );
 
-    // camera.attachControl(canvas, true);
+    camera.attachControl(canvas, true);
 
     var light1: HemisphericLight = new HemisphericLight(
       "light1",
