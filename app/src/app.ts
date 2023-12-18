@@ -9,24 +9,27 @@ import {
   HemisphericLight,
   Mesh,
   MeshBuilder,
-  TargetCamera,
-  Camera,
-  FlyCamera,
+  Color4,
 } from "@babylonjs/core";
 
 class App {
   constructor() {
     // create the canvas html element and attach it to the webpage
     var canvas = document.querySelector("#renderCanvas") as HTMLCanvasElement;
-
-    // window.addEventListener("resize", function () {
-    //   canvas.width = window.innerWidth;
-    //   canvas.height = window.innerHeight;
-    // });
+    // canvas.style.width = "100%";
+    // canvas.style.height = "100%";
+    // canvas.style.position = "absolute";
+    // canvas.style.backgroundColor = "black";
+    window.addEventListener("resize", function () {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
 
     // initialize babylon scene and engine
     var engine = new Engine(canvas, true);
     var scene = new Scene(engine);
+
+    scene.clearColor = new Color4(0, 0, 0, 0);
 
     var box: Mesh = MeshBuilder.CreateBox("box", { size: 1 }, scene);
 
