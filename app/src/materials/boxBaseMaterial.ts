@@ -37,6 +37,10 @@ class BoxBaseMaterial extends StandardMaterial {
     // Apply the texture to the material
     this.diffuseTexture = dynamicTexture;
   }
+
+  public canBePicked(): boolean {
+    return true;
+  }
 }
 
-export default BoxBaseMaterial;
+export { BoxBaseMaterial };
