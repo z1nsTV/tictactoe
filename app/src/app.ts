@@ -105,6 +105,7 @@ class App {
     engine.runRenderLoop(() => {
       // Game logic goes here
       this.actionManagerForClickingBoxes(scene, this.boxes, this.currentPlayer);
+      this.updateCurrentPlayerDisplay();
       scene.render();
     });
   }
@@ -136,6 +137,13 @@ class App {
       );
     }
   };
+
+  private updateCurrentPlayerDisplay(): void {
+    const currentPlayerElement = document.querySelector("#currentPlayer");
+    currentPlayerElement.textContent = `Current player: ${
+      this.players[this.currentPlayer].name
+    }`;
+  }
 }
 
 new App();
