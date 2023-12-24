@@ -10,18 +10,17 @@ import {
   Mesh,
   MeshBuilder,
   Color4,
-  Material,
-  StandardMaterial,
-  Texture,
-  Color3,
-  DynamicTexture,
   ActionManager,
   ExecuteCodeAction,
 } from "@babylonjs/core";
-import BoxBaseMaterial from "./materials/boxBaseMaterial";
+import { BoxBaseMaterial } from "./materials/boxBaseMaterial";
+import { Player } from "./models/Player";
+import { BaseBox } from "./models/BaseBox";
 
 class App {
-  private boxes: Mesh[] = [];
+  private boxes: BaseBox[] = [];
+  private players: Player[] = [];
+  private currentPlayer: number = 0;
 
   constructor() {
     // create the canvas html element and attach it to the webpage
@@ -39,6 +38,12 @@ class App {
 
     scene.clearColor = new Color4(0, 0, 0, 0);
 
+    // create players
+    this.players = Player.createPlayers(
+      ["Player 1", "Player 2"],
+      ["red", "blue"]
+    );
+
     var positions = {
       1: new Vector3(-1, 1, -1),
       2: new Vector3(0, 1, -1),
@@ -52,7 +57,7 @@ class App {
     };
 
     for (var i in positions) {
-      var box: Mesh = MeshBuilder.CreateBox("box", { size: 0.6 }, scene);
+      var box: BaseBox = BaseBox.create("box", 0.6, scene);
       box.position = positions[i];
 
       var boxMaterial: BoxBaseMaterial = new BoxBaseMaterial(
@@ -99,22 +104,33 @@ class App {
     // run the main render loop
     engine.runRenderLoop(() => {
       // Game logic goes here
-      actionManagerForClickingBoxes(scene, this.boxes);
+      this.actionManagerForClickingBoxes(scene, this.boxes, this.currentPlayer);
       scene.render();
     });
   }
+
+  private actionManagerForClickingBoxes = (
+    scene: Scene,
+    boxes: Mesh[],
+    currentPlayer: number
+  ) => {
+    for (let box of boxes) {
+      box.actionManager = new ActionManager(scene);
+      // const canBePicked = box.material.canBePicked();
+
+      box.actionManager.registerAction(
+        new ExecuteCodeAction(ActionManager.OnPickTrigger, () => {
+          if (currentPlayer === 0) {
+            box.material = new BoxBaseMaterial("box", scene, "X", "red");
+            this.currentPlayer = 1;
+          } else {
+            box.material = new BoxBaseMaterial("box", scene, "O", "blue");
+            this.currentPlayer = 0;
+          }
+        })
+      );
+    }
+  };
 }
 
 new App();
-
-const actionManagerForClickingBoxes = (scene: Scene, boxes: Mesh[]) => {
-  for (let box of boxes) {
-    box.actionManager = new ActionManager(scene);
-
-    box.actionManager.registerAction(
-      new ExecuteCodeAction(ActionManager.OnPickTrigger, () => {
-        box.material = new BoxBaseMaterial("box", scene, "X", "red");
-      })
-    );
-  }
-};
