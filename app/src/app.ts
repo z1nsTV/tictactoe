@@ -54,7 +54,6 @@ class App {
     for (var i in positions) {
       var box: Mesh = MeshBuilder.CreateBox("box", { size: 0.6 }, scene);
       box.position = positions[i];
-      var material: StandardMaterial = new StandardMaterial("normal", scene);
 
       var boxMaterial: BoxBaseMaterial = new BoxBaseMaterial(
         "box",
@@ -77,7 +76,7 @@ class App {
       true
     );
 
-    camera.attachControl(canvas, true);
+    // camera.attachControl(canvas, true);
 
     var light1: HemisphericLight = new HemisphericLight(
       "light1",
