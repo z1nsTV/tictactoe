@@ -57,7 +57,7 @@ class App {
     };
 
     for (var i in positions) {
-      var box: BaseBox = BaseBox.create("box", 0.6, scene);
+      var box: BaseBox = BaseBox.create("box", 0.6, scene) as BaseBox;
       box.position = positions[i];
 
       var boxMaterial: BoxBaseMaterial = new BoxBaseMaterial(
@@ -111,7 +111,7 @@ class App {
 
   private actionManagerForClickingBoxes = (
     scene: Scene,
-    boxes: Mesh[],
+    boxes: BaseBox[],
     currentPlayer: number
   ) => {
     for (let box of boxes) {
@@ -120,6 +120,10 @@ class App {
 
       box.actionManager.registerAction(
         new ExecuteCodeAction(ActionManager.OnPickTrigger, () => {
+          if (box.canBePicked === false) {
+            return;
+          }
+
           if (currentPlayer === 0) {
             box.material = new BoxBaseMaterial("box", scene, "X", "red");
             this.currentPlayer = 1;
@@ -127,6 +131,7 @@ class App {
             box.material = new BoxBaseMaterial("box", scene, "O", "blue");
             this.currentPlayer = 0;
           }
+          box.canBePicked = false;
         })
       );
     }
