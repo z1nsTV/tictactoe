@@ -117,7 +117,6 @@ class App {
   ) => {
     for (let box of boxes) {
       box.actionManager = new ActionManager(scene);
-      // const canBePicked = box.material.canBePicked();
 
       box.actionManager.registerAction(
         new ExecuteCodeAction(ActionManager.OnPickTrigger, () => {
