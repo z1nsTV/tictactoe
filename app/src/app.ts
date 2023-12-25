@@ -13,9 +13,16 @@ import {
   Material,
   StandardMaterial,
   Texture,
+  Color3,
+  DynamicTexture,
+  ActionManager,
+  ExecuteCodeAction,
 } from "@babylonjs/core";
+import BoxBaseMaterial from "./materials/boxBaseMaterial";
 
 class App {
+  private boxes: Mesh[] = [];
+
   constructor() {
     // create the canvas html element and attach it to the webpage
     var canvas = document.querySelector("#renderCanvas") as HTMLCanvasElement;
@@ -32,18 +39,39 @@ class App {
 
     scene.clearColor = new Color4(0, 0, 0, 0);
 
-    var box: Mesh = MeshBuilder.CreateBox("box", { size: 1 }, scene);
-    var material: StandardMaterial = new StandardMaterial("normal", scene);
-    material.diffuseTexture = new Texture("textures/amiga.jpg", scene);
+    var positions = {
+      1: new Vector3(-1, 1, -1),
+      2: new Vector3(0, 1, -1),
+      3: new Vector3(1, 1, -1),
+      4: new Vector3(-1, 0, -1),
+      5: new Vector3(0, 0, -1),
+      6: new Vector3(1, 0, -1),
+      7: new Vector3(-1, -1, -1),
+      8: new Vector3(0, -1, -1),
+      9: new Vector3(1, -1, -1),
+    };
 
-    box.material = material;
+    for (var i in positions) {
+      var box: Mesh = MeshBuilder.CreateBox("box", { size: 0.6 }, scene);
+      box.position = positions[i];
+
+      var boxMaterial: BoxBaseMaterial = new BoxBaseMaterial(
+        "box",
+        scene,
+        "😶‍🌫️",
+        "red"
+      );
+
+      box.material = boxMaterial;
+      this.boxes.push(box);
+    }
 
     var camera: ArcRotateCamera = new ArcRotateCamera(
       "Camera",
-      Math.PI / 3,
-      Math.PI / 3,
-      4,
-      box.position,
+      Math.PI / 2.5,
+      Math.PI / 2,
+      4.5,
+      new Vector3(0, 0, -1),
       scene,
       true
     );
@@ -70,8 +98,23 @@ class App {
 
     // run the main render loop
     engine.runRenderLoop(() => {
+      // Game logic goes here
+      actionManagerForClickingBoxes(scene, this.boxes);
       scene.render();
     });
   }
 }
+
 new App();
+
+const actionManagerForClickingBoxes = (scene: Scene, boxes: Mesh[]) => {
+  for (let box of boxes) {
+    box.actionManager = new ActionManager(scene);
+
+    box.actionManager.registerAction(
+      new ExecuteCodeAction(ActionManager.OnPickTrigger, () => {
+        box.material = new BoxBaseMaterial("box", scene, "X", "red");
+      })
+    );
+  }
+};
