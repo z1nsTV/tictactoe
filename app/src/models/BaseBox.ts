@@ -1,15 +1,18 @@
 import { Mesh, MeshBuilder, Scene } from "@babylonjs/core";
+import { BoxBaseMaterial } from "../materials/boxBaseMaterial";
 
 class BaseBox extends Mesh {
   public canBePicked: boolean;
 
-  constructor(name: string, scene: Scene) {
+  constructor(name: string, scene: Scene, size: number) {
     super(name, scene);
     this.canBePicked = true;
+
+    MeshBuilder.CreateBox(name, { size: size }, scene).parent = this;
   }
 
-  public static create(name: string, size: number, scene: Scene): Mesh {
-    return MeshBuilder.CreateBox(name, { size: size }, scene) as BaseBox;
+  public updateMaterial(color: string, text: string): void {
+    this.material = new BoxBaseMaterial("box", this.getScene(), text, color);
   }
 }
 
