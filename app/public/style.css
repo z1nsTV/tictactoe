@@ -33,3 +33,17 @@ body {
 #navbar a:hover {
     color: #ddd;
 }
+
+#currentPlayer {
+    position: absolute; /* This positions the div relative to the nearest positioned ancestor */
+    top: 50px; /* This positions the div 10px from the top of the canvas */
+    left: 50px; /* This positions the div 10px from the left of the canvas */
+    height: auto;
+    width: auto;    
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #e62e2e;
+}

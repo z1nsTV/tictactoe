@@ -9,7 +9,7 @@ class BoxBaseMaterial extends StandardMaterial {
   constructor(name: string, scene: Scene, text: string, fontColor: string) {
     super(name, scene);
 
-    this.diffuseColor = new Color3(0.5, 0.5, 0.5);
+    // this.diffuseColor = new Color3(0.5, 0.5, 0.5);
 
     // Create a dynamic texture
     var dynamicTexture = new DynamicTexture(
@@ -34,9 +34,11 @@ class BoxBaseMaterial extends StandardMaterial {
       true
     );
 
+    console.log(dynamicTexture);
+
     // Apply the texture to the material
     this.diffuseTexture = dynamicTexture;
   }
 }
 
-export default BoxBaseMaterial;
+export { BoxBaseMaterial };
